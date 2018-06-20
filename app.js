@@ -57,6 +57,25 @@ app.get('/login', function(req, res) {
     }));
 });
 
+// same as /login, however adds the "show_dialog" parameter to allow the user to switch accounts.
+app.get('/switchuser', function(req, res) {
+
+  var state = generateRandomString(16);
+  res.cookie(stateKey, state);
+
+  // your application requests authorization
+  var scope = 'user-read-private user-read-email user-read-playback-state user-top-read';
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state,
+      show_dialog: true
+    }));
+});
+
 app.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
