@@ -28,6 +28,7 @@ Then open `http://localhost:8888` in a browser.
 
 ## Version History
 
+- v0.2.0 - Local-compatible beta release
 - v0.1.0 - Initial Release
 
 [url]:https://mytopspotify.io/
