@@ -6,7 +6,9 @@ Server for [mytopspotify.io][url]. Based on [Spotify's][spotifyurl] 'authorizati
 
 ## Installation
 
-This server runs on Node.js. On [its website](http://www.nodejs.org/download/) you can find instructions on how to install it. You can also follow [this gist](https://gist.github.com/isaacs/579814) for a quick and easy way to install Node.js and npm.
+This server runs on Node.js. On [its website](http://www.nodejs.org/download/) you can find instructions on how to install it. You can also follow [this gist](https://gist.github.com/isaacs/579814) for a quick and easy way to install Node.js and npm. You will also need [serverless](https://serverless.com/) installed globally. You can do this by running:
+
+    $ npm install serverless -g
 
 Once installed, clone the repository and install its dependencies running:
 
@@ -17,17 +19,18 @@ You will need to register your app and get your own credentials from the Spotify
 
 To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.spotify.com/dashboard) and create your application.
 
-Once you have created your app, replace the `client_id`, `redirect_uri` and `client_secret` in app.js with those obtained from My Applications.
+Once you have created your app, replace the `client_id`, `redirect_uri`, `client_secret` and `app_uri` in config.js with those obtained from My Applications.
 
 ## Running the examples
-To start the server, run `app.js`:
+To start the server offline, start serverless:
 
-    $ node app.js
+    $ sls offline start
 
 Then open `http://localhost:8888` in a browser.
 
 ## Version History
 
+- v0.3.0 - AWS-Lambda compatible beta release
 - v0.2.0 - Local-compatible beta release
 - v0.1.0 - Initial Release
 

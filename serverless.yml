@@ -1,0 +1,23 @@
+# serverless.yml
+
+service: my-top-spotify-server
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    port: 8888
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: mytopspotify
+  region: eu-west-2
+
+functions:
+  app:
+    handler: app.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
