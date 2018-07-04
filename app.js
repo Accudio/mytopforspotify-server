@@ -36,16 +36,15 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use(express.static(__dirname + '/public'))
-   .use(cors())
+app.use(cors())
    .use(cookieParser());
 
-app.get('/login', function(req, res) {
+// on '/' get authorization code from spotify
+app.get('/', function(req, res) {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
   var scope = 'user-read-private user-read-email user-read-playback-state user-top-read';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -57,13 +56,12 @@ app.get('/login', function(req, res) {
     }));
 });
 
-// same as /login, however adds the "show_dialog" parameter to allow the user to switch accounts.
-app.get('/switchuser', function(req, res) {
+// same as '/', adds the "show_dialog" parameter to allow the user to switch accounts.
+app.get('/switch', function(req, res) {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
   var scope = 'user-read-private user-read-email user-read-playback-state user-top-read';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -76,10 +74,8 @@ app.get('/switchuser', function(req, res) {
     }));
 });
 
+// requests refresh and access tokens having obtained state parameter
 app.get('/callback', function(req, res) {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
 
   var code = req.query.code || null;
   var state = req.query.state || null;
@@ -122,7 +118,7 @@ app.get('/callback', function(req, res) {
           console.log(body);
         });
 
-        // we can also pass the token to the browser to make requests from there
+        // pass the token using GET to the browser and to web application
         res.redirect('http://localhost:3000/#' +
           querystring.stringify({
             access_token: access_token,
