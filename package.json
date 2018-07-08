@@ -8,8 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Accudio/my-top-spotify-server.git"
+    "url": "git+https://github.com/mytopspotify/server.git"
   },
+  "private": true,
   "author": "Alistair Shepherd <alistair@accudio.com>",
   "license": "Apache-2.0",
   "bugs": {
