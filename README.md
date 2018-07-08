@@ -30,6 +30,7 @@ Then open `http://localhost:8888` in a browser.
 
 ## Version History
 
+- v1.0.0 - Finished release coinciding with [mytopspotify.io][url] release
 - v0.3.0 - AWS-Lambda compatible beta release
 - v0.2.0 - Local-compatible beta release
 - v0.1.0 - Initial Release

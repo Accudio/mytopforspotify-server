@@ -1,6 +1,6 @@
 {
   "name": "my-top-spotify-server",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Login and Authorisation Server for My Top Spotify by Alistair Shepherd",
   "main": "app.js",
   "scripts": {
