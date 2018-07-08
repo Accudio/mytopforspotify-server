@@ -7,15 +7,14 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
-var express = require('express'); // Express web server framework
-var request = require('request'); // "Request" library
+var express = require('express');
+var serverless = require('serverless-http');
+var request = require('request');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = '7332504adfbb46cf84217c3881feea44'; // Your client id
-var client_secret = '9ff8983b239c41b7aaf35f14d4f56519'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var config = require('./config.js');
 
 /**
  * Generates a random string containing numbers and letters
@@ -49,9 +48,9 @@ app.get('/', function(req, res) {
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: client_id,
+      client_id: config.client_id,
       scope: scope,
-      redirect_uri: redirect_uri,
+      redirect_uri: config.redirect_uri,
       state: state
     }));
 });
@@ -66,9 +65,9 @@ app.get('/switch', function(req, res) {
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: client_id,
+      client_id: config.client_id,
       scope: scope,
-      redirect_uri: redirect_uri,
+      redirect_uri: config.redirect_uri,
       state: state,
       show_dialog: true
     }));
@@ -92,11 +91,11 @@ app.get('/callback', function(req, res) {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
-        redirect_uri: redirect_uri,
+        redirect_uri: config.redirect_uri,
         grant_type: 'authorization_code'
       },
       headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        'Authorization': 'Basic ' + (new Buffer(config.client_id + ':' + config.client_secret).toString('base64'))
       },
       json: true
     };
@@ -113,13 +112,11 @@ app.get('/callback', function(req, res) {
           json: true
         };
 
-        // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
           console.log(body);
         });
 
-        // pass the token using GET to the browser and to web application
-        res.redirect('http://localhost:3000/#' +
+        res.redirect(config.app_uri +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
@@ -134,5 +131,4 @@ app.get('/callback', function(req, res) {
   }
 });
 
-console.log('Listening on 8888');
-app.listen(8888);
+module.exports.handler = serverless(app);
